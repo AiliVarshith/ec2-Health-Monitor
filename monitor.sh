@@ -28,13 +28,15 @@ echo "Health Monitor starting...."
 
 # grep -E -> since i am using WSL ,to filter the lines starting with spaces and then find for the digit b/w 0-9.
 
+echo "=== CPU utilization ===" 
+
 top -bn1 | grep "Cpu(s)" | awk '{print $2}'
 
 top_cpu_process=$(top -bn1 | grep -E "^[[:space:]]*[0-9]" | sort -rn -k 9 | head -1)   
 
 echo "=== TOP CPU PROCESS ==="
 
-echo "$top_cpu_process"
+# echo "$top_cpu_process"
 
 cpu_percent=$(echo "$top_cpu_process" | awk '{print $9}')
 
