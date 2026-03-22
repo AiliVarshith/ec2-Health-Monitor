@@ -44,6 +44,15 @@ process_name=$(echo "$top_cpu_process" | awk '{print $12}')
 
 echo "Process : $process_name | CPU : $cpu_percent%"
 
+echo "=== Disk Usage ==="
+
+disk_usage=$(df -h | tail -n+2 | awk '{print $4,$5,$6}' | sort -hr -k 2 | head -1)
+
+disk_array=($disk_usage)
+
+echo "Storage Avaiable : ${disk_array[0]} | Percentage Used : ${disk_array[1]} | Mount_Point = ${disk_array[2]}"
+	
+
 
 
 
