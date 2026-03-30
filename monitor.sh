@@ -46,11 +46,25 @@ echo "Process : $process_name | CPU : $cpu_percent%"
 
 echo "=== Disk Usage ==="
 
-disk_usage=$(df -h | tail -n+2 | awk '{print $4,$5,$6}' | sort -hr -k 2 | head -1)
+#disk_usage=$(df -h | tail -n+2 | awk '{print $4,$5,$6}' | sort -hr -k 2 | head -1)
 
-disk_array=($disk_usage)
+#disk_array=($disk_usage)
 
-echo "Storage Avaiable : ${disk_array[0]} | Percentage Used : ${disk_array[1]} | Mount_Point = ${disk_array[2]}"
+#echo "Storage Avaiable : ${disk_array[0]} | Percentage Used : ${disk_array[1]} | Mount_Point = ${disk_array[2]}"
+
+disk_usage1=$(df -h --total | tail -1)
+
+total_disk_space=$(echo "$disk_usage1" | awk '{print $2}')
+
+available_disk_space=$(echo "$disk_usage1" | awk '{print $4}')
+
+echo "Total_Disk_Space : $total_disk_space | Available_Disk_Space : $available_disk_space "
+
+
+
+
+
+
 	
 
 
