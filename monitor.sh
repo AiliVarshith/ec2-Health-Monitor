@@ -60,7 +60,20 @@ available_disk_space=$(echo "$disk_usage1" | awk '{print $4}')
 
 echo "Total_Disk_Space : $total_disk_space | Available_Disk_Space : $available_disk_space "
 
+echo "=== Memory Usage ==="
 
+# 1. Get the 'Mem:' line specifically
+memory_usage=$(free -h | grep "Mem:")
+
+# 2. Extract specific columns using awk
+total_memory=$(echo "$memory_usage" | awk '{print $2}')
+used_memory=$(echo "$memory_usage" | awk '{print $3}')
+
+# Column 7 is the "Available" memory (better than 'free' column 4)
+available_memory=$(echo "$memory_usage" | awk '{print $7}')
+
+# 3. Print the results
+echo "Total_Memory : $total_memory | Used_Memory : $used_memory | Available_Memory : $available_memory"
 
 
 
