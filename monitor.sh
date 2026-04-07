@@ -30,7 +30,15 @@ echo "Health Monitor starting...."
 
 echo "=== CPU utilization ===" 
 
-top -bn1 | grep "Cpu(s)" | awk '{print $2}'
+total_cpu=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $4}')
+
+if awk "BEGIN {exit !($total_cpu > 90)}"
+then
+	exit 1
+else 
+	exit 0
+fi
+
 
 top_cpu_process=$(top -bn1 | grep -E "^[[:space:]]*[0-9]" | sort -rn -k 9 | head -1)   
 
