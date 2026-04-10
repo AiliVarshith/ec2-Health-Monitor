@@ -1,7 +1,7 @@
 pipleline{
         agent any{
             stages{
-                stage('Fetch Script'){
+                stage('Fetch Code'){
                     steps{
                         script
                         {
