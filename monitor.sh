@@ -26,25 +26,21 @@ echo "Health Monitor starting...."
 
 # while using a variable (cpu_percent=$..) -> correct syntax , (cpu_percent = $ ..) -> wrong syntax
 
-# grep -E -> since i am using WSL ,to filter the lines starting with spaces and then find for the digit b/w 0-9.
+# grep -E -> since i am using WSL ,to filter the lines starting with spaces and then find for the digit b/w 0-9
+
+
+
+echo "Health Monitor starting...."
 
 echo "=== CPU utilization ===" 
 
 total_cpu=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $4}')
 
-if awk "BEGIN {exit !($total_cpu > 90)}"
-then
-	exit 1
-else 
-	exit 0
-fi
-
+echo "Total CPU Usage: $total_cpu%"
 
 top_cpu_process=$(top -bn1 | grep -E "^[[:space:]]*[0-9]" | sort -rn -k 9 | head -1)   
 
 echo "=== TOP CPU PROCESS ==="
-
-# echo "$top_cpu_process"
 
 cpu_percent=$(echo "$top_cpu_process" | awk '{print $9}')
 
@@ -53,12 +49,6 @@ process_name=$(echo "$top_cpu_process" | awk '{print $12}')
 echo "Process : $process_name | CPU : $cpu_percent%"
 
 echo "=== Disk Usage ==="
-
-#disk_usage=$(df -h | tail -n+2 | awk '{print $4,$5,$6}' | sort -hr -k 2 | head -1)
-
-#disk_array=($disk_usage)
-
-#echo "Storage Avaiable : ${disk_array[0]} | Percentage Used : ${disk_array[1]} | Mount_Point = ${disk_array[2]}"
 
 disk_usage1=$(df -h --total | tail -1)
 
@@ -70,18 +60,16 @@ echo "Total_Disk_Space : $total_disk_space | Available_Disk_Space : $available_d
 
 echo "=== Memory Usage ==="
 
-# 1. Get the 'Mem:' line specifically
 memory_usage=$(free -h | grep "Mem:")
 
-# 2. Extract specific columns using awk
 total_memory=$(echo "$memory_usage" | awk '{print $2}')
 used_memory=$(echo "$memory_usage" | awk '{print $3}')
-
-# Column 7 is the "Available" memory (better than 'free' column 4)
 available_memory=$(echo "$memory_usage" | awk '{print $7}')
 
-# 3. Print the results
 echo "Total_Memory : $total_memory | Used_Memory : $used_memory | Available_Memory : $available_memory"
+
+echo "Health Monitor completed successfully"
+
 
 
 
