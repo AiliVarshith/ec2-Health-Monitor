@@ -1,9 +1,15 @@
 pipeline {
     agent any 
     stages {
-        stage('Run Monitor') {
+        stage('Fetch Code') {
             steps {
-                echo '🚀 Starting the health monitor script...'
+                // Quotes are required for the URL and branch name
+                git branch: 'main', url: 'https://github.com/AiliVarshith/ec2-Health-Monitor.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                // You don't strictly need the 'script' block for basic shell commands
                 sh 'chmod +x monitor.sh'
                 sh './monitor.sh'
             }
